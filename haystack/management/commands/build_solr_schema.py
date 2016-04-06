@@ -19,7 +19,7 @@ class Command(BaseCommand):
     base_options = (
         make_option("-f", "--filename", action="store", type="string", dest="filename",
                 help='For Solr version before 5.0.0. If provided, directs output to a XML schema.'),
-        make_option("-s", "--stdout", action="store_true", dest="stdout",
+        make_option("-s", "--stdout", action="store_true", dest="to_stdout",
             help='For Solr version before 5.0.0, print the schema.xml to stdout', default=False),
         make_option("-u", "--using", action="store", type="string", dest="using", default=constants.DEFAULT_ALIAS,
                     help='If provided, chooses a connection to work with.'),
@@ -36,7 +36,7 @@ class Command(BaseCommand):
         if not isinstance(backend, SolrSearchBackend):
             raise ImproperlyConfigured("'%s' isn't configured as a SolrEngine)." % backend.connection_alias)
 
-        if options.get('filename') or options.get('stdout'):
+        if options.get('filename') or options.get('to_stdout'):
             schema_xml = self.build_template(using=using)
             if options.get('filename'):
                 self.write_file(options.get('filename'), schema_xml)
@@ -89,7 +89,7 @@ class Command(BaseCommand):
         self.stderr.write("--------------------------------------------------------------------------------------------")
         self.stderr.write("Save the following output to 'schema.xml' and place it in your Solr configuration directory.")
         self.stderr.write("--------------------------------------------------------------------------------------------")
-        print(schema_xml)
+        self.stdout.write(schema_xml)
 
     def log(self, field, response, backend):
         try:
