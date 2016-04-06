@@ -89,7 +89,7 @@ class Command(BaseCommand):
         self.stderr.write("--------------------------------------------------------------------------------------------")
         self.stderr.write("Save the following output to 'schema.xml' and place it in your Solr configuration directory.")
         self.stderr.write("--------------------------------------------------------------------------------------------")
-        self.stdout.write(schema_xml)
+        print(schema_xml)
 
     def log(self, field, response, backend):
         try:
